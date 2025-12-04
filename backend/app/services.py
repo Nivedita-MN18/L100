@@ -1,9 +1,14 @@
 from datetime import datetime, timezone
+
+import app
 from .storage import StorageService
 from .models import URLItem
 from .utils import generate_short_code, validate_url, validate_alias
+from auth import require_api_key
 
 storage = StorageService()
+@app.route("/api/shorten", methods=["POST"])
+@require_api_key
 
 class URLShortenerService:
     def shorten_url(self, original_url: str, custom_alias: str = None) -> URLItem:
